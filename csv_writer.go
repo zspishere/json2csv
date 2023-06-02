@@ -42,26 +42,35 @@ func NewCSVWriter(w io.Writer) *CSVWriter {
 	}
 }
 
+// WriteCSV2 writes CSV data.
+func (w *CSVWriter) WriteCSV2(results []KeyValue, withHeader bool) error {
+	if w.Transpose {
+		return w.writeTransposedCSV(results)
+	}
+	return w.writeCSV(results, withHeader)
+}
+
 // WriteCSV writes CSV data.
 func (w *CSVWriter) WriteCSV(results []KeyValue) error {
 	if w.Transpose {
 		return w.writeTransposedCSV(results)
 	}
-	return w.writeCSV(results)
+	return w.writeCSV(results, true)
 }
 
 // WriteCSV writes CSV data.
-func (w *CSVWriter) writeCSV(results []KeyValue) error {
+func (w *CSVWriter) writeCSV(results []KeyValue, withHeader bool) error {
 	pts, err := allPointers(results)
 	if err != nil {
 		return err
 	}
 	sort.Sort(pts)
 	keys := pts.Strings()
-	header := w.getHeader(pts)
-
-	if err := w.Write(header); err != nil {
-		return err
+	if withHeader {
+		header := w.getHeader(pts)
+		if err := w.Write(header); err != nil {
+			return err
+		}
 	}
 
 	for _, result := range results {
