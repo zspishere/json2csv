@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/yukithm/json2csv"
+	"github.com/zspishere/json2csv"
 )
 
 func TestKeyWithTrailingSpace(t *testing.T) {

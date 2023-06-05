@@ -1,4 +1,4 @@
-module github.com/yukithm/json2csv
+module github.com/zspishere/json2csv
 
 go 1.15
 
