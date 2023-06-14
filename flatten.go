@@ -53,6 +53,9 @@ func _flatten(out KeyValue, obj interface{}, key jsonpointer.JSONPointer) error 
 	for value.Kind() == reflect.Interface {
 		value = value.Elem()
 	}
+	for value.Kind() == reflect.Pointer {
+		value = value.Elem()
+	}
 
 	if value.IsValid() {
 		vt := value.Type()
